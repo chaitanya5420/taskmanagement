@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { getAccessToken, refreshAccessToken, verifyRefreshToken } from "../services/auth";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap
 
@@ -8,6 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate(); // Initialize navigation
 
   useEffect(() => {
     const checkExistingTokens = async () => {
@@ -45,10 +47,10 @@ const Login = () => {
         localStorage.setItem("access_token", data.access);
         localStorage.setItem("refresh_token", data.refresh);
         setMessage("Login successful!");
+
         setTimeout(() => {
-            window.location.reload();
-          }, 500);
-  
+          navigate("/"); // Redirect to the homepage
+        }, 500);
       } else {
         setMessage(data.detail || "Invalid email or password");
       }
